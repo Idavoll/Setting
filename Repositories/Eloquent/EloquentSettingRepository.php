@@ -172,7 +172,7 @@ class EloquentSettingRepository extends EloquentBaseRepository implements Settin
      */
     public function findByModule($module)
     {
-        return $this->model->where('name', 'LIKE', $module . '::%')->get();
+        return $this->model->with('translations')->where('name', 'LIKE', $module . '::%')->get();
     }
 
     /**
