@@ -3,6 +3,7 @@
 namespace Modules\Setting\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class ThemeServiceProvider extends ServiceProvider
 {
@@ -43,7 +44,14 @@ class ThemeServiceProvider extends ServiceProvider
     private function inAdministration()
     {
         $segment = config('laravellocalization.hideDefaultLocaleInURL', false) ? 1 : 2;
-
+        //for localization in url
+        if (config('laravellocalization.hideDefaultLocaleInURL', false) &&
+            LaravelLocalization::getCurrentLocale() == LaravelLocalization::getDefaultLocale()){
+            $segment = 1;
+        }else{
+            $segment = 2;
+        }
+        //for localization in url
         return $this->app['request']->segment($segment) === $this->app['config']->get('asgard.core.core.admin-prefix');
     }
 
